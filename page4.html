@@ -26,32 +26,47 @@
   </li>
   
 </ul>
-
-     <ul class="list-group">
-  <li class="list-group-item">
-    <button type="button" class="btn btn-primary">Primary</button>
-  </li>
-  <li class="list-group-item">
-    <button type="button" class="btn btn-secondary">Secondary</button>
-  </li>
-  <li class="list-group-item">
-    <button type="button" class="btn btn-success">Success</button>
-    </li>
-  <li class="list-group-item">
-    <button type="button" class="btn btn-danger">Danger</button>
-    </li>
-  <li class="list-group-item">
-    <button type="button" class="btn btn-warning">Warning</button>
-    </li>
-       <li class="list-group-item">
-<button type="button" class="btn btn-info">Info</button>
-    </li>
-       <li class="list-group-item">
-<button type="button" class="btn btn-dark">Dark</button>
-    </li>
-</ul>
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  </body>
+<style>
+#myContainer {
+  width: 400px;
+  height: 400px;
+  position: relative;
+  background: yellow;
+}
+#myAnimation {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background-color: red;
+}
+</style>
+
+<p>
+<button onclick="myMove()">Click Me</button> 
+</p>
+
+<div id ="myContainer">
+<div id ="myAnimation"></div>
+</div>
+
+<script>
+var id = null;
+function myMove() {
+  var elem = document.getElementById("myAnimation");   
+  var pos = 0;
+  clearInterval(id);
+  id = setInterval(frame, 10);
+  function frame() {
+    if (pos == 350) {
+      clearInterval(id);
+    } else {
+      pos++; 
+      elem.style.top = pos + 'px'; 
+      elem.style.left = pos + 'px'; 
+    }
+  }
+}
+</script>  </body>
 </html>
 
