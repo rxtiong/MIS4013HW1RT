@@ -36,8 +36,22 @@
   </li>  
 </ul>
 
- <div id="map"></div>
+<div id="map"></div>
+<script>
+      // Initialize the map
+      var map = L.map('map').setView([51.505, -0.09], 13); // Centered on London with zoom level 13
 
+      // Add OpenStreetMap tiles
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+
+      // Add a marker
+      L.marker([51.505, -0.09]).addTo(map)
+        .bindPopup('A pretty marker in London!')
+        .openPopup();
+    </script>
     
 </body>
 </html>
