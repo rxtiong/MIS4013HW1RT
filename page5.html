@@ -26,102 +26,190 @@
   </li>
 </ul>
 
-<!-- svg making up the clock -->
-<svg viewBox="0 0 100 100" width="100" height="100">
-  <defs>
-    <!-- filters describing the shadows, applied on the larger and smaller shapes -->
-    <filter id="shadow-large">
-      <feDropShadow dx="0" dy="0" stdDeviation="4" />
-    </filter>
-    <filter id="shadow-small">
-      <feDropShadow dx="0" dy="0" stdDeviation="0.2" />
-    </filter>
-
-    <!-- mask used to cut out a sliver of the overlaid circle -->
-    <mask id="mask">
-      <g transform="translate(50 50)">
-        <!-- starting at -15, incrementing by 30 for each hour -->
-        <g class="hours" transform="rotate(-15)">
-          <circle cx="0" cy="0" r="50" fill="#fff">
-          </circle>
-          <path d="M 0 -50 v 50 l 28.86 -50" fill="#000">
-          </path>
-        </g>
-      </g>
-    </mask>
-  </defs>
-
-  <!-- circle making up the bottom of the clock -->
-  <circle cx="50" cy="50" r="46" fill="#303335">
-  </circle>
-
-  <!-- circle with the accent color, overlaid before the text elements -->
-  <circle cx="50" cy="50" r="42" fill="#EA3F3F" filter="url(#shadow-large)">
-  </circle>
-
-  <!-- text elements, positioned from the center around the clock -->
-  <g class="clock--face" font-size="8px" transform="translate(50 50)" text-anchor="middle" dominant-baseline="middle">
-    <!-- the elements are included through the script, at intervals of 30 degrees -->
-    <!--
-        <text
-            transform="rotate(-90) translate(35 0) rotate(90)" >
-            12
-        </text>
-
-        <text
-            transform="rotate(-0) translate(35 0) rotate(0)" >
-            03
-        </text>
-        -->
-  </g>
-
-  <!-- circle overlaid on the accent circle and text elements -->
-  <circle mask="url(#mask)" cx="50" cy="50" r="50" fill="#303335">
-  </circle>
-
-  <!-- smaller circle on which the hands sit -->
-  <circle cx="50" cy="50" r="4" filter="url(#shadow-small)" fill="#303335">
-  </circle>
-
-  <!-- clock's hands -->
-  <!-- centered in the clock and rotated according to the passage of time in the 0-360 range -->
-  <g class="hands" transform="translate(50 50)">
-    <g class="minutes" transform="rotate(240)">
-      <!-- change rotation of this group to affect both clock's hand -->
-      <path fill="#fff" d="M -0.4 8 h 0.8 v -33 h -0.8 z">
-      </path>
-      <circle fill="#303335" cx="0" cy="0" r="0.6">
-      </circle>
-    </g>
-
-    <g class="seconds" transform="rotate(80)">
-      <!-- change rotation of this group to affect both clock's hand -->
-      <path fill="#EA3F3F" d="M -0.4 10 h 0.8 v -45 h -0.8 z">
-      </path>
-      <circle stroke-width="0.4" stroke="#EA3F3F" fill="#303335" cx="0" cy="0" r="0.8">
-      </circle>
-    </g>
-  </g>
-</svg>
-
-<!-- div wrapping the controls to change the number of hours/minutes/seconds -->
-<div class="controls">
-  <div class="controls__control" data-control="hours">
-    <button>+</button>
-    <span class="control--hours">h</span>
-    <button>-</button>
+<!-- Analog Clock -->
+<div class="clock">
+  <div class="hour">
+    <div class="hor" id="hor">
+    </div>
   </div>
-
-  <div class="controls__control" data-control="minutes">
-    <button>+</button>
-    <span class="control--minutes">m</span>
-    <button>-</button>
+  <div class="minutes">
+    <div class="mn" id="mn">
+    </div>
   </div>
-
-  <div class="controls__control" data-control="seconds">
-    <button>+</button>
-    <span class="control--seconds">s</span>
-    <button>-</button>
+  <div class="seconds">
+    <div class="sc" id="sc">
+    </div>
   </div>
-</div>  </body>
+</div>
+
+<!-- Digital Clock -->
+<div class="<a href="https://www.jqueryscript.net/time-clock/">date</a>time">
+  <div class="date">
+    <span id="day">Day</span>,
+    <span id="month">Month</span>
+    <span id="num">00</span>,
+    <span id="year">Year</span>
+  </div>
+  <div class="time">
+    <span id="hour">00</span>:
+    <span id="min">00</span>:
+    <span id="sec">00</span>
+    <span id="period">AM</span>
+  </div>
+</div>
+
+<button class="dig" onclick="digital()">Digital clock</button>
+<button class="analog" onclick="analog()">Analog Clock</button>
+
+<script src="/path/to/cdn/jquery.min.js"></script>
+<script src="/path/to/js/clock.js"></script>
+<script src="/path/to/js/digital.js"></script>
+
+.dig, .analog{
+  height: 42px;
+  align-self: center;
+  margin-left: 2em;
+  padding: 10px;
+  border-radius: 8px;
+  border: 3px solid rgb(57, 138, 243);
+  cursor: pointer;
+  transition: 0.3s ease all;
+}
+
+.clock{
+  width: 420px;
+  height: 420px;
+  margin:0 auto;
+  margin-top: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url(clock.png);
+  background-size: cover;
+  border: 4px solid seagreen;
+  border-radius: 50%;
+  box-shadow: 0 -15px 15px rgba(255,255,255, 0.05),
+              inset 0 -15px 15px rgba(255,255,255, 0.05),
+              0 15px 15px rgba(0, 0, 0, 0.3),
+              inset 0 15px 15px rgba(0, 0, 0, 0.3);
+}
+
+.clock:before{
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: #fff;
+  border-radius: 50%;
+  z-index: 10000;
+}
+
+.clock .hour, .clock .minutes, .clock .seconds{
+  position: absolute;
+
+}
+
+.clock .hour, .hor{
+  width: 160px;
+  height: 160px;
+
+}
+
+.clock .minutes, .mn{
+  width: 190px;
+  height: 230px;
+  
+}
+
+.clock .seconds, .sc{
+  width: 230px;
+  height: 230px;
+}
+
+.hor, .mn, .sc{
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.hor:before{
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 85px;
+  background: seagreen;
+  z-index: 10;
+  border-radius: 6px 6px 0 0;
+}
+
+.mn:before{
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 120px;
+  background: #fff;
+  z-index: 11;
+  border-radius: 6px 6px 0 0;
+}
+
+.sc:before{
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 150px;
+  background:rgb(252, 40, 86);
+  z-index: 12;
+  border-radius: 6px 6px 0 0;
+}
+
+.datetime{
+  margin:0 auto;
+  margin-top: 15%;
+  color: #fff;
+  background:seagreen ;
+  font-family: "Segoe UI", sans-serif;
+  width: 410px;
+  padding: 15px 10px;
+  border: 3px solid seagreen;
+  border-radius: 5px;
+  -webkit-box-reflect: below 1px linear-gradient(transparent, rgba(255,255,255, 0.1));
+  box-shadow: 0 0 30px seagreen;
+}
+
+.date{
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 3px;
+}
+
+.time{
+  font-size: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.time span:not(:last-child){
+  position: relative;
+  margin: 0 6px;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 3px;
+}
+
+.time span:last-child{
+  background: seagreen;
+  font-size: 30px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 10px;
+  padding: 0 5px;
+  border-radius: 3px;
+}
+
+initClock();
+  
+  </body>
 </html>
